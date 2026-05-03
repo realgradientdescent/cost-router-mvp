@@ -1,0 +1,17 @@
+{
+  "policy_version": "mvp-v2",
+  "tiers": {
+    "cheap_default": {
+      "candidate_model_tier": "cheap",
+      "provider": "openrouter",
+      "model": "mistralai/mistral-small-3.1",
+      "notes": "default low-cost path for simple tasks"
+    },
+    "premium_fallback": {
+      "candidate_model_tier": "premium",
+      "provider": "anthropic",
+      "model": "claude-sonnet-4",
+      "notes": "stronger path for higher-risk or more complex workloads"
+    }
+  }
+}

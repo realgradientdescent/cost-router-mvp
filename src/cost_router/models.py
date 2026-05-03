@@ -100,10 +100,23 @@ class RoutingRequest:
 
 
 @dataclass
+class ProviderTarget:
+    route_name: str
+    candidate_model_tier: str
+    provider: str
+    model: str
+    notes: str = ""
+
+
+@dataclass
 class RoutingDecision:
     request_id: str
     selected_route: str
     candidate_model_tier: str
+    selected_provider: str
+    selected_model: str
+    provider_routing_key: str
+    policy_version: str
     reasons: list[str]
     estimated_cost_bucket: str
     estimated_latency_bucket: str

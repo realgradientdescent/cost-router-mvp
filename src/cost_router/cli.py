@@ -1,31 +1,35 @@
 from __future__ import annotations
 
+import argparse
 import json
 import sys
 from pathlib import Path
 
-from .logger import decision_to_dict, log_decision
-from .models import RoutingRequest
-from .router import route_request
+from .config import DEFAULT_CONFIG_PATH
+from .engine import DEFAULT_LOG_PATH, process_request_payload
 
-DEFAULT_LOG_PATH = Path("logs/router-decisions.jsonl")
+
+def build_parser() -> argparse.ArgumentParser:
+    parser = argparse.ArgumentParser(description="Route a task request to a model tier and log the decision.")
+    parser.add_argument("request_path", help="Path to request JSON file")
+    parser.add_argument("--log-path", default=str(DEFAULT_LOG_PATH), help="JSONL log output path")
+    parser.add_argument("--config-path", default=str(DEFAULT_CONFIG_PATH), help="Provider tier config path")
+    return parser
 
 
 def main(argv: list[str] | None = None) -> int:
-    argv = argv or sys.argv[1:]
-    if not argv:
-        print("Usage: python3 -m src.cost_router.cli <request.json> [log_path]", file=sys.stderr)
-        return 2
-
-    request_path = Path(argv[0])
-    log_path = Path(argv[1]) if len(argv) > 1 else DEFAULT_LOG_PATH
+    parser = build_parser()
+    args = parser.parse_args(argv or sys.argv[1:])
 
     try:
+        request_path = Path(args.request_path)
         payload = json.loads(request_path.read_text(encoding="utf-8"))
-        request = RoutingRequest.from_dict(payload)
-        decision = route_request(request)
-        log_decision(request, decision, log_path)
-        print(json.dumps(decision_to_dict(decision), indent=2))
+        decision = process_request_payload(
+            payload,
+            log_path=Path(args.log_path),
+            config_path=Path(args.config_path),
+        )
+        print(json.dumps(decision, indent=2))
         return 0
     except Exception as exc:  # noqa: BLE001
         print(f"error: {exc}", file=sys.stderr)

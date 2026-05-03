@@ -1,19 +1,52 @@
-# Cost Router MVP — Input Schema and Routing Rules
+# Cost Router MVP — Input Schema, Routing Rules, and API
 
 ## Goal
 
-Route agent workloads to the cheapest acceptable model path by default, while escalating to a premium path only when task characteristics justify it.
+Route agent workloads to the cheapest acceptable model path by default, while escalating to a premium path only when the task profile justifies it.
 
-This MVP is intentionally deterministic and logging-first.
+This version is deliberately **deterministic, inspectable, and logging-first**.
 
-## Routing modes
+## System contract
+
+The MVP has three layers:
+
+1. **Request schema** — what the caller must provide
+2. **Routing policy** — how the system decides cheap vs premium
+3. **Provider mapping** — how a route tier resolves to a specific provider/model target
+
+That separation is the point.
+
+## Route tiers
 
 - `cheap_default`
-  - default path for low-risk, low-complexity, non-critical tasks
-  - intended future target: smaller / cheaper open-weight or API model
+  - intended for low-risk, low-complexity, low-cost tasks
 - `premium_fallback`
-  - escalation path for higher-risk, higher-complexity, or user-critical tasks
-  - intended future target: stronger model with better reasoning / reliability
+  - intended for riskier or more complex tasks that justify a stronger model
+
+## Provider mapping
+
+Current mapping lives in:
+- `config/provider_tiers.json`
+
+Current defaults:
+
+```json
+{
+  "policy_version": "mvp-v2",
+  "tiers": {
+    "cheap_default": {
+      "candidate_model_tier": "cheap",
+      "provider": "openrouter",
+      "model": "mistralai/mistral-small-3.1"
+    },
+    "premium_fallback": {
+      "candidate_model_tier": "premium",
+      "provider": "anthropic",
+      "model": "claude-sonnet-4"
+    }
+  }
+}
+```
 
 ## Input schema
 
@@ -67,13 +100,10 @@ Each routing request is a single JSON object.
 - `needs_long_context`: whether task likely needs large context windows
 - `risk_level`: `low | medium | high`
 - `impact_level`: `low | medium | high`
-- `user_override`: optional explicit routing instruction
-  - `cheap`
-  - `premium`
-  - `null`
+- `user_override`: optional explicit routing instruction: `cheap | premium | null`
 - `metadata`: free-form object for logging only
 
-## MVP routing rules
+## Routing rules
 
 ### Rule 0 — explicit user override wins
 
@@ -87,46 +117,31 @@ If `user_override == "cheap"`:
 
 ### Rule 1 — high-risk or high-impact escalates
 
-Route to `premium_fallback` when either is true:
+Escalate when either is true:
 - `risk_level == "high"`
 - `impact_level == "high"`
 
-Reason examples:
-- `high_risk`
-- `high_impact`
-
 ### Rule 2 — hard tasks escalate
 
-Route to `premium_fallback` when either is true:
+Escalate when either is true:
 - `task_type in {"code_debugging", "agent_orchestration", "research"}`
 - `requires_code_execution == true`
 
-Reason examples:
-- `hard_task_type`
-- `requires_code_execution`
+### Rule 3 — output complexity escalates
 
-### Rule 3 — complex output constraints escalate
-
-Route to `premium_fallback` when either is true:
+Escalate when either is true:
 - `needs_long_context == true`
 - `needs_strict_json == true and task_type in {"tool_calling", "data_extraction", "agent_orchestration"}`
 
-Reason examples:
-- `needs_long_context`
-- `strict_json_critical`
+### Rule 4 — tight latency on complex work escalates
 
-### Rule 4 — premium if cheap path is unlikely to meet budget/latency tradeoff
-
-Route to `premium_fallback` when both are true:
+Escalate when both are true:
 - `max_latency_ms <= 2000`
 - `task_type in {"planning", "research", "code_generation", "code_debugging"}`
 
-Reason:
-- `tight_latency_for_complex_task`
+### Rule 5 — otherwise go cheap by default
 
-### Rule 5 — otherwise cheap by default
-
-If none of the escalation rules fire:
+If no escalation rule fires:
 - route to `cheap_default`
 - reason: `default_cheap_path`
 
@@ -137,6 +152,10 @@ If none of the escalation rules fire:
   "request_id": "req_001",
   "selected_route": "premium_fallback",
   "candidate_model_tier": "premium",
+  "selected_provider": "anthropic",
+  "selected_model": "claude-sonnet-4",
+  "provider_routing_key": "anthropic:claude-sonnet-4",
+  "policy_version": "mvp-v2",
   "reasons": ["requires_code_execution", "hard_task_type"],
   "estimated_cost_bucket": "medium",
   "estimated_latency_bucket": "medium",
@@ -146,7 +165,7 @@ If none of the escalation rules fire:
 
 ## Logging schema
 
-Each decision is appended as one JSON object per line to a JSONL file.
+Each decision is appended as one JSON object per line to `logs/router-decisions.jsonl`.
 
 ```json
 {
@@ -155,6 +174,10 @@ Each decision is appended as one JSON object per line to a JSONL file.
   "task_type": "code_generation",
   "selected_route": "premium_fallback",
   "candidate_model_tier": "premium",
+  "selected_provider": "anthropic",
+  "selected_model": "claude-sonnet-4",
+  "provider_routing_key": "anthropic:claude-sonnet-4",
+  "policy_version": "mvp-v2",
   "reasons": ["requires_code_execution"],
   "max_latency_ms": 5000,
   "max_budget_usd": 0.05,
@@ -168,17 +191,66 @@ Each decision is appended as one JSON object per line to a JSONL file.
 }
 ```
 
-## Why this MVP shape is good
+## API contract
 
-- simple enough to ship in a day
-- useful enough to produce real routing logs immediately
-- extensible to future provider adapters
-- creates a clean training set for later policy tuning
+### `GET /health`
 
-## Next build after this MVP
+Returns:
 
-1. swap route tiers for actual provider/model IDs
-2. add real token/cost estimation
-3. capture outcome quality and retries
-4. add a replay/evaluation harness
-5. learn thresholds from logs instead of hand-tuning only
+```json
+{
+  "status": "ok",
+  "service": "cost-router-mvp"
+}
+```
+
+### `GET /tiers`
+
+Returns the currently loaded routing tier config.
+
+### `POST /route`
+
+Accepts the routing request JSON and returns the decision payload.
+
+## Verification commands
+
+Run CLI locally:
+
+```bash
+python3 -m src.cost_router.cli examples/premium-task.json --config-path config/provider_tiers.json
+```
+
+Run tests:
+
+```bash
+python3 -m unittest discover -s tests -v
+```
+
+Run the API using the Hermes runtime that already includes FastAPI and uvicorn:
+
+```bash
+/opt/hermes/venv/bin/python -m uvicorn src.cost_router.app:app --host 127.0.0.1 --port 8000
+```
+
+Then verify:
+
+```bash
+curl http://127.0.0.1:8000/health
+curl http://127.0.0.1:8000/tiers
+curl -X POST http://127.0.0.1:8000/route -H 'Content-Type: application/json' --data @examples/premium-task.json
+```
+
+## Why this design is good
+
+- policy is explicit, reviewable, and testable
+- provider choices can change without rewriting policy logic
+- every decision is logged for later analytics and replay
+- the same engine powers both CLI and HTTP surfaces
+
+## High-value next steps
+
+1. add real prompt/token estimation
+2. plug in live provider/model adapters
+3. attach task outcomes and retry data to each logged decision
+4. build a replay/eval harness over real task traces
+5. tune policy thresholds from observed performance instead of rules alone
