@@ -2,7 +2,22 @@
 
 A logging-first control-plane MVP for routing agent workloads to the *cheapest acceptable model path* by default, with deterministic escalation to a premium fallback when risk, complexity, or execution requirements justify it.
 
+> **Start here:**
+> - [Recruiter-facing case study](docs/portfolio-case-study.md)
+> - [Routing schema and rules](docs/input-schema-and-routing-rules.md)
+> - [Architecture diagram](evidence/diagrams/cost-router-architecture.svg)
+
 This project is intentionally small, but it demonstrates an important product/system idea: **model choice is commoditizing, while routing policy, observability, and control-plane logic are where leverage compounds.**
+
+## Visual evidence
+
+### Live routing evidence
+
+![Cost Router live routing evidence](evidence/screenshots/routing-decision-demo.svg)
+
+### Control-plane architecture
+
+![Cost Router architecture](evidence/diagrams/cost-router-architecture.svg)
 
 ## Why this project matters
 
@@ -183,6 +198,7 @@ This is the raw material for future work:
 
 - `config/provider_tiers.json` — provider/model tier mapping
 - `docs/input-schema-and-routing-rules.md` — schema, policy, and API contract
+- `docs/portfolio-case-study.md` — recruiter-facing build narrative
 - `src/cost_router/models.py` — request/decision models
 - `src/cost_router/router.py` — routing rules and target resolution
 - `src/cost_router/config.py` — tier config loading
@@ -190,7 +206,8 @@ This is the raw material for future work:
 - `src/cost_router/cli.py` — local CLI interface
 - `src/cost_router/app.py` — FastAPI wrapper
 - `tests/test_router.py` — zero-dependency unit tests for core logic
-- `examples/` — sample request payloads
+- `evidence/screenshots/` — live demo artifacts
+- `evidence/diagrams/` — architecture visuals
 - `logs/router-decisions.jsonl` — ignored runtime ledger
 
 ## Verification

@@ -1,0 +1,63 @@
+<svg width="1600" height="980" viewBox="0 0 1600 980" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="1600" height="980" fill="#020617"/>
+  <defs>
+    <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
+      <path d="M 40 0 L 0 0 0 40" fill="none" stroke="#1e293b" stroke-width="0.6"/>
+    </pattern>
+  </defs>
+  <rect width="1600" height="980" fill="url(#grid)" opacity="0.55"/>
+  <rect x="40" y="30" width="1520" height="90" rx="22" fill="#0f172a" stroke="#22d3ee" stroke-width="2"/>
+  <text x="75" y="84" fill="#E2E8F0" font-family="JetBrains Mono, DejaVu Sans Mono, monospace" font-size="38" font-weight="700">Cost Router MVP — Live Routing Evidence</text>
+  <circle cx="1458" cy="73" r="12" fill="#34d399"/>
+  <text x="1482" y="81" fill="#86efac" font-family="JetBrains Mono, DejaVu Sans Mono, monospace" font-size="20">verified</text>
+
+  <rect x="40" y="150" width="720" height="750" rx="20" fill="#0f172a" stroke="#22d3ee" stroke-width="2"/>
+  <text x="70" y="190" fill="#67e8f9" font-family="JetBrains Mono, DejaVu Sans Mono, monospace" font-size="24">Input request</text>
+  <text x="75" y="235" fill="#CBD5E1" font-family="JetBrains Mono, DejaVu Sans Mono, monospace" font-size="20">{</text>
+  <text x="95" y="265" fill="#CBD5E1" font-family="JetBrains Mono, DejaVu Sans Mono, monospace" font-size="20">&quot;request_id&quot;: &quot;req_premium_001&quot;,</text>
+  <text x="95" y="295" fill="#CBD5E1" font-family="JetBrains Mono, DejaVu Sans Mono, monospace" font-size="20">&quot;task_type&quot;: &quot;code_debugging&quot;,</text>
+  <text x="95" y="325" fill="#CBD5E1" font-family="JetBrains Mono, DejaVu Sans Mono, monospace" font-size="20">&quot;task_goal&quot;: &quot;Debug auth flow across provider fallback&quot;,</text>
+  <text x="95" y="355" fill="#CBD5E1" font-family="JetBrains Mono, DejaVu Sans Mono, monospace" font-size="20">&quot;max_latency_ms&quot;: 5000,</text>
+  <text x="95" y="385" fill="#CBD5E1" font-family="JetBrains Mono, DejaVu Sans Mono, monospace" font-size="20">&quot;max_budget_usd&quot;: 0.08,</text>
+  <text x="95" y="415" fill="#CBD5E1" font-family="JetBrains Mono, DejaVu Sans Mono, monospace" font-size="20">&quot;requires_tools&quot;: true,</text>
+  <text x="95" y="445" fill="#CBD5E1" font-family="JetBrains Mono, DejaVu Sans Mono, monospace" font-size="20">&quot;requires_code_execution&quot;: true,</text>
+  <text x="95" y="475" fill="#CBD5E1" font-family="JetBrains Mono, DejaVu Sans Mono, monospace" font-size="20">&quot;risk_level&quot;: &quot;medium&quot;,</text>
+  <text x="95" y="505" fill="#CBD5E1" font-family="JetBrains Mono, DejaVu Sans Mono, monospace" font-size="20">&quot;impact_level&quot;: &quot;high&quot;</text>
+  <text x="75" y="535" fill="#CBD5E1" font-family="JetBrains Mono, DejaVu Sans Mono, monospace" font-size="20">}</text>
+
+  <text x="70" y="600" fill="#67e8f9" font-family="JetBrains Mono, DejaVu Sans Mono, monospace" font-size="24">Policy triggers</text>
+  <rect x="75" y="630" width="300" height="48" rx="14" fill="#3b0764" stroke="#a78bfa" stroke-width="2"/>
+  <text x="95" y="661" fill="#F8FAFC" font-family="JetBrains Mono, DejaVu Sans Mono, monospace" font-size="18">high_impact</text>
+  <rect x="75" y="695" width="300" height="48" rx="14" fill="#14532d" stroke="#34d399" stroke-width="2"/>
+  <text x="95" y="726" fill="#F8FAFC" font-family="JetBrains Mono, DejaVu Sans Mono, monospace" font-size="18">hard_task_type</text>
+  <rect x="75" y="760" width="350" height="48" rx="14" fill="#7c2d12" stroke="#fb923c" stroke-width="2"/>
+  <text x="95" y="791" fill="#F8FAFC" font-family="JetBrains Mono, DejaVu Sans Mono, monospace" font-size="18">requires_code_execution</text>
+
+  <rect x="800" y="150" width="760" height="370" rx="20" fill="#0f172a" stroke="#34d399" stroke-width="2"/>
+  <text x="830" y="190" fill="#6ee7b7" font-family="JetBrains Mono, DejaVu Sans Mono, monospace" font-size="24">Resolved routing decision</text>
+  <text x="845" y="245" fill="#E2E8F0" font-family="JetBrains Mono, DejaVu Sans Mono, monospace" font-size="22">selected_route        premium_fallback</text>
+  <text x="845" y="282" fill="#E2E8F0" font-family="JetBrains Mono, DejaVu Sans Mono, monospace" font-size="22">candidate_model_tier  premium</text>
+  <text x="845" y="319" fill="#E2E8F0" font-family="JetBrains Mono, DejaVu Sans Mono, monospace" font-size="22">selected_provider     anthropic</text>
+  <text x="845" y="356" fill="#E2E8F0" font-family="JetBrains Mono, DejaVu Sans Mono, monospace" font-size="22">selected_model        claude-sonnet-4</text>
+  <text x="845" y="393" fill="#E2E8F0" font-family="JetBrains Mono, DejaVu Sans Mono, monospace" font-size="22">routing_key           anthropic:claude-sonnet-4</text>
+  <text x="845" y="430" fill="#E2E8F0" font-family="JetBrains Mono, DejaVu Sans Mono, monospace" font-size="22">policy_version        mvp-v2</text>
+  <rect x="1080" y="452" width="410" height="46" rx="14" fill="#052e16" stroke="#22c55e" stroke-width="2"/>
+  <text x="1104" y="481" fill="#DCFCE7" font-family="JetBrains Mono, DejaVu Sans Mono, monospace" font-size="17">cheap by default → premium when justified</text>
+
+  <rect x="800" y="550" width="760" height="350" rx="20" fill="#0f172a" stroke="#f59e0b" stroke-width="2"/>
+  <text x="830" y="590" fill="#FBBF24" font-family="JetBrains Mono, DejaVu Sans Mono, monospace" font-size="24">Observability and API proof</text>
+
+  <rect x="835" y="625" width="690" height="110" rx="16" fill="#111827" stroke="#475569" stroke-width="1.5"/>
+  <text x="860" y="657" fill="#F8FAFC" font-family="JetBrains Mono, DejaVu Sans Mono, monospace" font-size="18">JSONL ledger</text>
+  <text x="860" y="688" fill="#CBD5E1" font-family="JetBrains Mono, DejaVu Sans Mono, monospace" font-size="16">logs/router-decisions.jsonl</text>
+  <text x="860" y="714" fill="#CBD5E1" font-family="JetBrains Mono, DejaVu Sans Mono, monospace" font-size="16">req_premium_001 -> premium_fallback</text>
+
+  <rect x="835" y="755" width="690" height="105" rx="16" fill="#111827" stroke="#475569" stroke-width="1.5"/>
+  <text x="860" y="787" fill="#F8FAFC" font-family="JetBrains Mono, DejaVu Sans Mono, monospace" font-size="18">Live endpoint checks</text>
+  <text x="860" y="816" fill="#FDE68A" font-family="JetBrains Mono, DejaVu Sans Mono, monospace" font-size="16">GET  /health  -> status ok</text>
+  <text x="860" y="841" fill="#FDE68A" font-family="JetBrains Mono, DejaVu Sans Mono, monospace" font-size="16">GET  /tiers   -> policy_version mvp-v2</text>
+  <text x="1160" y="816" fill="#FDE68A" font-family="JetBrains Mono, DejaVu Sans Mono, monospace" font-size="16">POST /route -> 200 OK</text>
+  <text x="1160" y="841" fill="#FDE68A" font-family="JetBrains Mono, DejaVu Sans Mono, monospace" font-size="16">provider anthropic</text>
+
+  <text x="835" y="885" fill="#CBD5E1" font-family="JetBrains Mono, DejaVu Sans Mono, monospace" font-size="16">Proves: deterministic routing + provider resolution + shared CLI/API path.</text>
+</svg>

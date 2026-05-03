@@ -1,0 +1,72 @@
+<svg width="1600" height="960" viewBox="0 0 1600 960" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="1600" height="960" fill="#020617"/>
+  <defs>
+    <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
+      <path d="M 40 0 L 0 0 0 40" fill="none" stroke="#1e293b" stroke-width="0.6"/>
+    </pattern>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="9" refY="5" orient="auto">
+      <path d="M0,0 L10,5 L0,10 z" fill="#94a3b8"/>
+    </marker>
+  </defs>
+  <rect width="1600" height="960" fill="url(#grid)" opacity="0.55"/>
+  <text x="60" y="70" fill="#E2E8F0" font-family="JetBrains Mono, DejaVu Sans Mono, monospace" font-size="34" font-weight="700">Cost Router MVP — Control Plane Architecture</text>
+  <text x="60" y="110" fill="#94A3B8" font-family="JetBrains Mono, DejaVu Sans Mono, monospace" font-size="18">Deterministic policy routing, provider resolution, shared CLI/API path, and JSONL observability</text>
+
+  <rect x="60" y="180" width="250" height="100" rx="16" fill="#0f172a" stroke="#22d3ee" stroke-width="2"/>
+  <text x="90" y="220" fill="#67e8f9" font-family="JetBrains Mono, DejaVu Sans Mono, monospace" font-size="24">CLI / API client</text>
+  <text x="90" y="253" fill="#cbd5e1" font-family="JetBrains Mono, DejaVu Sans Mono, monospace" font-size="16">CLI request JSON</text>
+  <text x="90" y="275" fill="#cbd5e1" font-family="JetBrains Mono, DejaVu Sans Mono, monospace" font-size="16">or HTTP POST /route</text>
+
+  <rect x="390" y="150" width="390" height="150" rx="18" fill="#0f172a" stroke="#34d399" stroke-width="2"/>
+  <text x="425" y="192" fill="#6ee7b7" font-family="JetBrains Mono, DejaVu Sans Mono, monospace" font-size="25">Shared engine</text>
+  <text x="425" y="228" fill="#e2e8f0" font-family="JetBrains Mono, DejaVu Sans Mono, monospace" font-size="17">RoutingRequest validation</text>
+  <text x="425" y="254" fill="#e2e8f0" font-family="JetBrains Mono, DejaVu Sans Mono, monospace" font-size="17">rule evaluation + route selection</text>
+  <text x="425" y="280" fill="#e2e8f0" font-family="JetBrains Mono, DejaVu Sans Mono, monospace" font-size="17">decision logging</text>
+
+  <rect x="860" y="120" width="320" height="120" rx="18" fill="#0f172a" stroke="#a78bfa" stroke-width="2"/>
+  <text x="895" y="162" fill="#c4b5fd" font-family="JetBrains Mono, DejaVu Sans Mono, monospace" font-size="24">Policy layer</text>
+  <text x="895" y="196" fill="#e2e8f0" font-family="JetBrains Mono, DejaVu Sans Mono, monospace" font-size="16">risk, impact, execution</text>
+  <text x="895" y="220" fill="#e2e8f0" font-family="JetBrains Mono, DejaVu Sans Mono, monospace" font-size="16">context, strict JSON, latency</text>
+
+  <rect x="860" y="280" width="320" height="120" rx="18" fill="#0f172a" stroke="#fbbf24" stroke-width="2"/>
+  <text x="895" y="322" fill="#fcd34d" font-family="JetBrains Mono, DejaVu Sans Mono, monospace" font-size="24">Provider mapping</text>
+  <text x="895" y="356" fill="#e2e8f0" font-family="JetBrains Mono, DejaVu Sans Mono, monospace" font-size="16">config/provider_tiers.json</text>
+  <text x="895" y="380" fill="#e2e8f0" font-family="JetBrains Mono, DejaVu Sans Mono, monospace" font-size="16">route tier -> provider:model</text>
+
+  <rect x="1270" y="170" width="270" height="120" rx="18" fill="#0f172a" stroke="#94a3b8" stroke-width="2"/>
+  <text x="1300" y="212" fill="#cbd5e1" font-family="JetBrains Mono, DejaVu Sans Mono, monospace" font-size="24">Resolved target</text>
+  <text x="1300" y="246" fill="#e2e8f0" font-family="JetBrains Mono, DejaVu Sans Mono, monospace" font-size="16">cheap_default</text>
+  <text x="1300" y="270" fill="#e2e8f0" font-family="JetBrains Mono, DejaVu Sans Mono, monospace" font-size="16">or premium_fallback</text>
+
+  <rect x="390" y="420" width="390" height="150" rx="18" fill="#0f172a" stroke="#22d3ee" stroke-width="2"/>
+  <text x="425" y="462" fill="#67e8f9" font-family="JetBrains Mono, DejaVu Sans Mono, monospace" font-size="24">Delivery surfaces</text>
+  <text x="425" y="498" fill="#e2e8f0" font-family="JetBrains Mono, DejaVu Sans Mono, monospace" font-size="17">python -m src.cost_router.cli</text>
+  <text x="425" y="524" fill="#e2e8f0" font-family="JetBrains Mono, DejaVu Sans Mono, monospace" font-size="17">FastAPI /route</text>
+  <text x="425" y="550" fill="#e2e8f0" font-family="JetBrains Mono, DejaVu Sans Mono, monospace" font-size="17">both use the same engine underneath</text>
+
+  <rect x="860" y="470" width="340" height="120" rx="18" fill="#0f172a" stroke="#fb923c" stroke-width="2"/>
+  <text x="895" y="512" fill="#fdba74" font-family="JetBrains Mono, DejaVu Sans Mono, monospace" font-size="24">Decision log</text>
+  <text x="895" y="546" fill="#e2e8f0" font-family="JetBrains Mono, DejaVu Sans Mono, monospace" font-size="16">logs/router-decisions.jsonl</text>
+  <text x="895" y="570" fill="#e2e8f0" font-family="JetBrains Mono, DejaVu Sans Mono, monospace" font-size="16">raw material for replay, eval, tuning</text>
+
+  <rect x="1270" y="440" width="270" height="145" rx="18" fill="#0f172a" stroke="#34d399" stroke-width="2"/>
+  <text x="1300" y="482" fill="#86efac" font-family="JetBrains Mono, DejaVu Sans Mono, monospace" font-size="24">Provider adapters</text>
+  <text x="1300" y="518" fill="#e2e8f0" font-family="JetBrains Mono, DejaVu Sans Mono, monospace" font-size="16">OpenRouter</text>
+  <text x="1300" y="542" fill="#e2e8f0" font-family="JetBrains Mono, DejaVu Sans Mono, monospace" font-size="16">Anthropic</text>
+  <text x="1300" y="566" fill="#e2e8f0" font-family="JetBrains Mono, DejaVu Sans Mono, monospace" font-size="16">other provider tiers</text>
+
+  <line x1="310" y1="228" x2="390" y2="228" stroke="#94a3b8" stroke-width="3" marker-end="url(#arrow)"/>
+  <line x1="780" y1="228" x2="860" y2="180" stroke="#94a3b8" stroke-width="3" marker-end="url(#arrow)"/>
+  <line x1="780" y1="228" x2="860" y2="340" stroke="#94a3b8" stroke-width="3" marker-end="url(#arrow)"/>
+  <line x1="1180" y1="180" x2="1270" y2="220" stroke="#94a3b8" stroke-width="3" marker-end="url(#arrow)"/>
+  <line x1="1180" y1="340" x2="1270" y2="240" stroke="#94a3b8" stroke-width="3" marker-end="url(#arrow)"/>
+  <line x1="585" y1="300" x2="585" y2="420" stroke="#94a3b8" stroke-width="3" marker-end="url(#arrow)"/>
+  <line x1="780" y1="495" x2="860" y2="530" stroke="#94a3b8" stroke-width="3" marker-end="url(#arrow)"/>
+  <line x1="1180" y1="340" x2="1270" y2="500" stroke="#94a3b8" stroke-width="3" marker-end="url(#arrow)"/>
+
+  <rect x="60" y="660" width="1480" height="215" rx="24" fill="#0b1220" stroke="#334155" stroke-width="2"/>
+  <text x="95" y="710" fill="#E2E8F0" font-family="JetBrains Mono, DejaVu Sans Mono, monospace" font-size="24">What this architecture demonstrates</text>
+  <text x="95" y="752" fill="#cbd5e1" font-family="JetBrains Mono, DejaVu Sans Mono, monospace" font-size="18">• policy is separated from provider choice, so routing logic can evolve without rewriting integrations</text>
+  <text x="95" y="788" fill="#cbd5e1" font-family="JetBrains Mono, DejaVu Sans Mono, monospace" font-size="18">• the same core engine powers both local CLI workflows and an HTTP service surface</text>
+  <text x="95" y="824" fill="#cbd5e1" font-family="JetBrains Mono, DejaVu Sans Mono, monospace" font-size="18">• every decision is logged, creating the future dataset for replay, evaluation, and policy tuning</text>
+</svg>
