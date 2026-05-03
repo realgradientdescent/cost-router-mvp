@@ -1,0 +1,20 @@
+{
+  "request_id": "req_simple_001",
+  "timestamp": "2026-05-03T00:00:00Z",
+  "user_tier": "default",
+  "task_type": "summarization",
+  "task_goal": "Summarize today's top 5 AI product updates into 5 bullets",
+  "max_latency_ms": 4000,
+  "max_budget_usd": 0.01,
+  "requires_tools": false,
+  "requires_code_execution": false,
+  "needs_strict_json": false,
+  "needs_long_context": false,
+  "risk_level": "low",
+  "impact_level": "low",
+  "user_override": null,
+  "metadata": {
+    "source": "example",
+    "project": "cost-router-mvp"
+  }
+}

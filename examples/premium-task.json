@@ -1,0 +1,20 @@
+{
+  "request_id": "req_premium_001",
+  "timestamp": "2026-05-03T00:00:00Z",
+  "user_tier": "power",
+  "task_type": "code_debugging",
+  "task_goal": "Debug a failing auth flow across provider fallback and token refresh",
+  "max_latency_ms": 5000,
+  "max_budget_usd": 0.08,
+  "requires_tools": true,
+  "requires_code_execution": true,
+  "needs_strict_json": false,
+  "needs_long_context": false,
+  "risk_level": "medium",
+  "impact_level": "high",
+  "user_override": null,
+  "metadata": {
+    "source": "example",
+    "project": "cost-router-mvp"
+  }
+}
